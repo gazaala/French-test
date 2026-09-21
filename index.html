@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 7 French Revision & Test Practice - ICSE</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        french: {
+                            blue: '#1e3a8a',
+                            lightBlue: '#3b82f6',
+                            red: '#dc2626',
+                            gold: '#d97706',
+                            cream: '#f8fafc',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+        .french-gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #dc2626 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .drag-item {
+            touch-action: none;
+            user-select: none;
+        }
+        .drop-zone.drag-over {
+            border-color: #3b82f6 !important;
+            background-color: #eff6ff !important;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background: white !important; font-size: 11pt; }
+            .page-break { page-break-before: always; }
+            .shadow-xl, .shadow-lg, .shadow-md { box-shadow: none !important; }
+            .border { border-color: #cbd5e1 !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-full flex flex-col antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Navigation / Header -->
+    <header class="no-print sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-900 via-blue-600 to-red-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
+                    <i class="fa-solid font-serif text-xl">FR</i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-slate-900 leading-tight">Grade 7 French Revision</h1>
+                    <p class="text-xs text-slate-500 font-medium">Nouvel Apprenons le français – 0 • ICSE Board</p>
+                </div>
+            </div>
+
+            <!-- Global Controls -->
+            <div class="flex items-center gap-2 sm:gap-4">
+                <!-- Translation Toggle -->
+                <button id="toggle-trans-btn" onclick="toggleTranslations()" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm font-medium text-slate-700 transition">
+                    <i class="fa-solid fa-language text-blue-600"></i>
+                    <span id="trans-btn-text">English Hints: ON</span>
+                </button>
+
+                <!-- Audio TTS Voice Status Indicator -->
+                <button id="tts-btn" onclick="speakText('Bonjour! Bienvenue au révision de français.')" class="p-2 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 transition" title="Test Audio Pronunciation">
+                    <i class="fa-solid fa-volume-high text-blue-600"></i>
+                </button>
+
+                <button onclick="window.print()" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs sm:text-sm font-medium text-slate-700 transition">
+                    <i class="fa-solid fa-print text-slate-600"></i>
+                    <span>Print</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub-Header / Navigation Tabs & Score Bar -->
+    <div class="no-print bg-slate-900 text-white shadow-inner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
+            
+            <!-- Navigation Tabs -->
+            <div class="flex items-center bg-slate-800 p-1 rounded-xl w-full md:w-auto">
+                <button id="tab-practice" onclick="switchTab('practice')" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-sm">
+                    <i class="fa-solid fa-pen-to-square mr-2"></i>Interactive Test
+                </button>
+                <button id="tab-answers" onclick="switchTab('answers')" class="flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-book-open mr-2"></i>Study Mode &amp; Key
+                </button>
+            </div>
+
+            <!-- Score & Progress -->
+            <div class="flex items-center gap-6 w-full md:w-auto justify-between md:justify-end">
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Score</div>
+                        <div class="text-lg font-bold font-mono"><span id="user-score" class="text-yellow-400">0</span> / 80 Marks</div>
+                    </div>
+                    <div class="w-12 h-12 rounded-full border-4 border-slate-700 flex items-center justify-center font-bold text-xs font-mono text-blue-400" id="score-percent">
+                        0%
+                    </div>
+                </div>
+
+                <button onclick="resetAllAnswers()" class="px-3 py-1.5 rounded-lg bg-red-600/20 border border-red-500/30 text-red-300 hover:bg-red-600 hover:text-white text-xs font-medium transition">
+                    <i class="fa-solid fa-rotate-right mr-1"></i>Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- VIEW 1: INTERACTIVE PRACTICE TEST MODE -->
+        <div id="view-practice" class="space-y-8">
+
+            <!-- Welcome Banner -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200/80 bg-gradient-to-r from-blue-900 to-indigo-950 text-white relative overflow-hidden">
+                <div class="relative z-10 max-w-2xl">
+                    <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-semibold uppercase tracking-wider">ICSE Class 7 French Exam Revision</span>
+                    <h2 class="text-2xl sm:text-3xl font-bold font-serif mt-2 mb-2">Term 1 Revision Test</h2>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Practice all 13 question types as per the ICSE paper pattern. Complete questions below, use the audio speaker buttons to practice pronunciation, and click <strong>Verify Question</strong> to earn marks out of 80!
+                    </p>
+                </div>
+            </div>
+
+            <!-- QUESTION 1: Comprehension Passage -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.1 • 10 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Lisez le paragraphe et répondez aux questions suivantes.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Read the paragraph and answer the following questions.</p>
+                    </div>
+                    <button onclick="speakText(document.getElementById('passage-text').innerText)" class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition" title="Listen to passage">
+                        <i class="fa-solid fa-volume-high text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- French Passage Box -->
+                <div class="bg-slate-50 border-l-4 border-blue-600 p-4 rounded-r-xl mb-6 text-slate-800 leading-relaxed text-sm sm:text-base" id="passage-text">
+                    Bonjour ! Je m'appelle Manuel. Je suis étudiant et j'habite à Paris, en France. J'ai douze ans. Je suis français. Mon ami s'appelle Denis. Il est canadien et il vit à Montréal. Nous aimons écouter de la musique et jouer au football. Aujourd'hui, c'est samedi. La famille de Manuel est grande. Son père s'appelle M. Lavigne et sa mère s'appelle Mme Lavigne. Ils sont très sympathiques.
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Part A -->
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-3">A. Répondez aux questions par une phrase complète : (2 × 2 = 4 Marks)</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">1. Où habite Manuel ? <span class="trans-text text-xs text-slate-500 font-normal italic">(Where does Manuel live?)</span></label>
+                                <input type="text" id="q1-a1" class="w-full sm:w-3/4 px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm" placeholder="Ex: Manuel habite à...">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">2. Quel âge a Manuel ? <span class="trans-text text-xs text-slate-500 font-normal italic">(How old is Manuel?)</span></label>
+                                <input type="text" id="q1-a2" class="w-full sm:w-3/4 px-3 py-2 rounded-lg border border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm" placeholder="Ex: Manuel a...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part B -->
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-3">B. Dites « Vrai » ou « Faux » : (4 × 1 = 4 Marks)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-sm text-slate-700">1. Manuel a treize ans.</span>
+                                <select id="q1-b1" class="px-2 py-1 rounded border border-slate-300 text-sm bg-white font-medium">
+                                    <option value="">Select...</option>
+                                    <option value="Vrai">Vrai</option>
+                                    <option value="Faux">Faux</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-sm text-slate-700">2. Denis est canadien.</span>
+                                <select id="q1-b2" class="px-2 py-1 rounded border border-slate-300 text-sm bg-white font-medium">
+                                    <option value="">Select...</option>
+                                    <option value="Vrai">Vrai</option>
+                                    <option value="Faux">Faux</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-sm text-slate-700">3. Manuel et Denis aiment jouer au tennis.</span>
+                                <select id="q1-b3" class="px-2 py-1 rounded border border-slate-300 text-sm bg-white font-medium">
+                                    <option value="">Select...</option>
+                                    <option value="Vrai">Vrai</option>
+                                    <option value="Faux">Faux</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <span class="text-sm text-slate-700">4. Le père de Manuel s'appelle M. Lavigne.</span>
+                                <select id="q1-b4" class="px-2 py-1 rounded border border-slate-300 text-sm bg-white font-medium">
+                                    <option value="">Select...</option>
+                                    <option value="Vrai">Vrai</option>
+                                    <option value="Faux">Faux</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Part C -->
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-800 mb-3">C. Complétez avec un mot du texte : (2 × 1 = 2 Marks)</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="text-sm text-slate-700">1. Denis est l' <input type="text" id="q1-c1" class="w-28 px-2 py-1 border border-slate-300 rounded text-center text-sm font-semibold text-blue-900"> de Manuel.</label>
+                            </div>
+                            <div>
+                                <label class="text-sm text-slate-700">2. Paris est en <input type="text" id="q1-c2" class="w-28 px-2 py-1 border border-slate-300 rounded text-center text-sm font-semibold text-blue-900">.</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ1()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 1
+                    </button>
+                    <div id="q1-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 2: Matching -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.2 • 8 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Liez les mots aux descriptions / identités.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Match the French terms in Column A with their correct identity in Column B.</p>
+                    </div>
+                </div>
+
+                <div id="q2-container" class="space-y-3">
+                    <!-- Dynamic rendering via JavaScript -->
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ2()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 2
+                    </button>
+                    <div id="q2-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 3: Dialogue Completion -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.3 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Complétez le dialogue.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Complete the dialogue using the word bank provided.</p>
+                    </div>
+                </div>
+
+                <!-- Word Bank Box -->
+                <div class="bg-blue-50 border border-blue-200 p-3 rounded-xl mb-6 text-center">
+                    <span class="text-xs font-bold uppercase text-blue-700 tracking-wider block mb-1">Word Bank / Banque de mots :</span>
+                    <div class="flex flex-wrap justify-center gap-2 text-sm font-semibold text-blue-900">
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">Bonjour</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">m'appelle</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">Comment</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">Ça va</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">enchanté</span>
+                        <span class="px-2.5 py-1 bg-white rounded-lg shadow-sm">Au revoir</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl space-y-3 text-sm sm:text-base font-medium text-slate-800">
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-blue-900">Paul :</span>
+                        <span><select id="q3-1" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> ! Comment tu t'appelles ?</span>
+                        <button onclick="speakText('Bonjour! Comment tu t\'appelles?')" class="text-xs text-slate-400 hover:text-blue-600"><i class="fa-solid fa-volume-high"></i></button>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-slate-700">Marc :</span>
+                        <span>Bonjour ! Je <select id="q3-2" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> Marc. Et toi ?</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-blue-900">Paul :</span>
+                        <span>Je m'appelle Paul. <select id="q3-3" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> allez-vous ?</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-slate-700">Marc :</span>
+                        <span>Je vais bien, merci. Et toi ?</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-blue-900">Paul :</span>
+                        <span><select id="q3-4" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> bien !</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-slate-700">Marc :</span>
+                        <span>Très bien, <select id="q3-5" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> de te connaître, Paul !</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-16 font-bold text-blue-900">Paul :</span>
+                        <span>Merci, <select id="q3-6" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold bg-white"></select> !</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ3()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 3
+                    </button>
+                    <div id="q3-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 4: Numbers in Letters -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.4 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Écrivez les nombres suivants en lettres.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Write the following numbers in French words.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">1. Number 5 :</span>
+                        <input type="text" id="q4-1" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">2. Number 12 :</span>
+                        <input type="text" id="q4-2" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">3. Number 15 :</span>
+                        <input type="text" id="q4-3" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">4. Number 20 :</span>
+                        <input type="text" id="q4-4" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">5. Number 8 :</span>
+                        <input type="text" id="q4-5" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between">
+                        <span class="font-bold text-slate-700">6. Number 11 :</span>
+                        <input type="text" id="q4-6" class="w-28 px-2 py-1 border border-slate-300 rounded text-sm text-center font-bold text-blue-900" placeholder="in French">
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ4()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 4
+                    </button>
+                    <div id="q4-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 5: Plural Forms -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.5 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Mettez au pluriel.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Convert the following singular sentences into plural form.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">1. C'est un livre. <span class="trans-text font-normal italic text-slate-500 text-xs">(This is a book)</span></label>
+                        <input type="text" id="q5-1" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Ce sont...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">2. Il a un stylo noir. <span class="trans-text font-normal italic text-slate-500 text-xs">(He has a black pen)</span></label>
+                        <input type="text" id="q5-2" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Ils ont...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">3. La fille est intelligente. <span class="trans-text font-normal italic text-slate-500 text-xs">(The girl is intelligent)</span></label>
+                        <input type="text" id="q5-3" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Les filles...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">4. C'est une fleur. <span class="trans-text font-normal italic text-slate-500 text-xs">(This is a flower)</span></label>
+                        <input type="text" id="q5-4" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Ce sont...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">5. Le garçon est grand. <span class="trans-text font-normal italic text-slate-500 text-xs">(The boy is tall)</span></label>
+                        <input type="text" id="q5-5" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Les garçons...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">6. J'ai un cahier. <span class="trans-text font-normal italic text-slate-500 text-xs">(I have a notebook)</span></label>
+                        <input type="text" id="q5-6" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Ex: Nous avons...">
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ5()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 5
+                    </button>
+                    <div id="q5-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 6: Articles -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.6 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Complétez en utilisant l'article défini ou indéfini.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Complete using definite (le, la, l', les) or indefinite (un, une, des) articles as indicated.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">1. C'est <select id="q6-1" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="le">le</option><option value="la">la</option><option value="l'">l'</option><option value="les">les</option></select> tableau de la classe.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Défini - Board)</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">2. Il y a <select id="q6-2" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="un">un</option><option value="une">une</option><option value="des">des</option></select> gomme sur la table.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Indéfini - Eraser)</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">3. <select id="q6-3" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="le">le</option><option value="la">la</option><option value="l'">l'</option><option value="les">les</option></select> élèves sont dans la classe.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Défini - Students)</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">4. J'ai <select id="q6-4" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="un">un</option><option value="une">une</option><option value="des">des</option></select> amie française.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Indéfini - Friend [f])</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">5. <select id="q6-5" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="le">le</option><option value="la">la</option><option value="l'">l'</option><option value="les">les</option></select> capitale de la France est Paris.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Défini - Capital)</div>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="text-sm text-slate-800">6. Ce sont <select id="q6-6" class="px-2 py-1 border border-slate-300 rounded bg-white font-bold text-blue-900"><option value="">?</option><option value="un">un</option><option value="une">une</option><option value="des">des</option></select> stylos de Pierre.</label>
+                        <div class="text-xs text-slate-500 italic mt-1">(Indéfini - Pens)</div>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ6()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 6
+                    </button>
+                    <div id="q6-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 7: Verb Conjugation -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.7 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Conjuguez les verbes suivants au présent.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Conjugate the verbs in parentheses in present tense.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">1. Nous <input type="text" id="q7-1" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (être) étudiants.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">2. Tu <input type="text" id="q7-2" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (avoir) un livre.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">3. Ils <input type="text" id="q7-3" class="w-28 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (s'appeler) Marc et Pierre.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">4. Je <input type="text" id="q7-4" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (parler) français.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">5. Vous <input type="text" id="q7-5" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (être) professeurs.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">6. Elle <input type="text" id="q7-6" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> (avoir) dix ans.</label>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ7()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 7
+                    </button>
+                    <div id="q7-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 8: Feminine Form -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.8 • 4 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Mettez au féminin.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Change the underline/bold part into feminine form.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">1. Il est étudiant. → Elle est <input type="text" id="q8-1" class="w-28 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"></label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">2. C'est un petit garçon. → C'est une <input type="text" id="q8-2" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"> fille.</label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">3. Il est canadien. → Elle est <input type="text" id="q8-3" class="w-28 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"></label>
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="text-sm text-slate-800">4. Le père est grand. → La mère est <input type="text" id="q8-4" class="w-24 px-2 py-1 border border-slate-300 rounded text-center text-blue-900 font-bold text-sm"></label>
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ8()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 8
+                    </button>
+                    <div id="q8-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 9: Rearrange Words -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.9 • 4 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Mettez les phrases en ordre.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Reorder the scrambled words to form correct sentences.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <div class="text-xs font-bold text-slate-500 mb-1">Scrambled: m'appelle / Je / Denis.</div>
+                        <input type="text" id="q9-1" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Type correct sentence...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <div class="text-xs font-bold text-slate-500 mb-1">Scrambled: habitons / Nous / Paris / à.</div>
+                        <input type="text" id="q9-2" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Type correct sentence...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <div class="text-xs font-bold text-slate-500 mb-1">Scrambled: est / La / belle / France.</div>
+                        <input type="text" id="q9-3" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Type correct sentence...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <div class="text-xs font-bold text-slate-500 mb-1">Scrambled: as / Quel / tu / âge / ?</div>
+                        <input type="text" id="q9-4" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="Type correct sentence...">
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ9()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 9
+                    </button>
+                    <div id="q9-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 10: Nationalities Table -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.10 • 5 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Complétez le tableau avec les nationalités.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Fill in the missing masculine or feminine nationality forms.</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                                <th class="p-3 font-semibold">Pays (Country)</th>
+                                <th class="p-3 font-semibold">Masculin</th>
+                                <th class="p-3 font-semibold">Féminin</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-100">
+                            <tr>
+                                <td class="p-3 font-medium">L'Inde</td>
+                                <td class="p-3 text-slate-600">Indien</td>
+                                <td class="p-3"><input type="text" id="q10-1" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold" placeholder="Feminine"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-medium">La France</td>
+                                <td class="p-3"><input type="text" id="q10-2" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold" placeholder="Masculine"></td>
+                                <td class="p-3 text-slate-600">Française</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-medium">Le Canada</td>
+                                <td class="p-3 text-slate-600">Canadien</td>
+                                <td class="p-3"><input type="text" id="q10-3" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold" placeholder="Feminine"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-medium">L'Italie</td>
+                                <td class="p-3"><input type="text" id="q10-4" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold" placeholder="Masculine"></td>
+                                <td class="p-3 text-slate-600">Italienne</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-medium">L'Angleterre</td>
+                                <td class="p-3 text-slate-600">Anglais</td>
+                                <td class="p-3"><input type="text" id="q10-5" class="px-2 py-1 border border-slate-300 rounded text-blue-900 font-bold" placeholder="Feminine"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ10()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 10
+                    </button>
+                    <div id="q10-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 11: Translate into French -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.11 • 8 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Traduisez en Français.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Translate the following English sentences into French.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">1. Hello, how are you?</label>
+                        <input type="text" id="q11-1" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In French...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">2. I have two books.</label>
+                        <input type="text" id="q11-2" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In French...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">3. She is French.</label>
+                        <input type="text" id="q11-3" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In French...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">4. Goodbye and see you tomorrow!</label>
+                        <input type="text" id="q11-4" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In French...">
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ11()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 11
+                    </button>
+                    <div id="q11-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 12: Translate into English -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.12 • 6 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Traduisez en anglais.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Translate the following French sentences into English.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">1. Je m'appelle Sophie et j'ai dix ans.</label>
+                        <input type="text" id="q12-1" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In English...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">2. Paris est la capitale de la France.</label>
+                        <input type="text" id="q12-2" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In English...">
+                    </div>
+                    <div class="p-3 bg-slate-50 rounded-xl">
+                        <label class="block text-sm font-semibold text-slate-800 mb-1">3. Nous sommes étudiants.</label>
+                        <input type="text" id="q12-3" class="w-full sm:w-3/4 px-3 py-1.5 border border-slate-300 rounded-lg text-sm text-blue-900 font-medium" placeholder="In English...">
+                    </div>
+                </div>
+
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+                    <button onclick="checkQ12()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Verify Question 12
+                    </button>
+                    <div id="q12-feedback" class="text-sm font-semibold"></div>
+                </div>
+            </div>
+
+            <!-- QUESTION 13: Short Essay Writing Pad -->
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
+                    <div>
+                        <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 text-xs font-bold uppercase tracking-wider">Q.13 • 5 Marks</span>
+                        <h3 class="text-lg font-bold text-slate-900 mt-1">Écrivez un court essai en 5 - 6 lignes.</h3>
+                        <p class="trans-text text-xs text-slate-500 italic">Write a short essay of 5 to 6 lines on ONE topic of your choice.</p>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Choose Topic / Choisissez un sujet :</label>
+                    <div class="flex gap-4">
+                        <label class="flex items-center gap-2 text-sm text-slate-800 cursor-pointer">
+                            <input type="radio" name="essay-topic" value="A" checked class="text-blue-600">
+                            <span><strong>Sujet A :</strong> Présentez-vous <span class="trans-text text-xs text-slate-500">(Introduce yourself)</span></span>
+                        </label>
+                        <label class="flex items-center gap-2 text-sm text-slate-800 cursor-pointer">
+                            <input type="radio" name="essay-topic" value="B" class="text-blue-600">
+                            <span><strong>Sujet B :</strong> La France <span class="trans-text text-xs text-slate-500">(France)</span></span>
+                        </label>
+                    </div>
+                </div>
+
+                <textarea id="q13-text" rows="5" class="w-full p-3 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-blue-500" placeholder="Écrivez votre texte en français ici (5-6 phrases)..."></textarea>
+
+                <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
+                    <button onclick="checkQ13()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition shadow-sm">
+                        Check &amp; View Sample Model Essays
+                    </button>
+                    <button onclick="speakText(document.getElementById('q13-text').value)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-volume-high text-blue-600"></i> Read My Essay
+                    </button>
+                </div>
+
+                <div id="q13-feedback" class="mt-4 hidden p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm text-emerald-900 space-y-3">
+                    <!-- Dynamic model essay insertion -->
+                </div>
+            </div>
+
+            <!-- Complete Submission Footer -->
+            <div class="text-center py-6">
+                <button onclick="calculateTotalScore()" class="px-8 py-3 bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white font-bold rounded-xl shadow-lg transition transform hover:-translate-y-0.5 text-base">
+                    <i class="fa-solid fa-award mr-2"></i>Calculate Final Exam Score
+                </button>
+            </div>
+
+        </div>
+
+        <!-- VIEW 2: STUDY MODE & FULL ANSWER KEY -->
+        <div id="view-answers" class="hidden space-y-6">
+
+            <div class="glass-panel rounded-2xl p-6 shadow-sm border border-slate-200 bg-white">
+                <div class="border-b border-slate-200 pb-4 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h2 class="text-2xl font-bold font-serif text-slate-900">Complete Answer Key &amp; Explanations</h2>
+                        <p class="text-sm text-slate-500">Nouvel Apprenons le français – 0 • Term 1 Revision Syllabus</p>
+                    </div>
+                    <span class="px-3 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-full w-max">Full Solutions (80 Marks)</span>
+                </div>
+
+                <!-- Answer Item 1 -->
+                <div class="p-4 bg-slate-50 rounded-xl mb-4 border-l-4 border-blue-600">
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Q.1 Reading Passage Solutions (10 Marks)</h3>
+                    <div class="text-sm text-slate-700 space-y-2">
+                        <p><strong>A. Questions:</strong><br>
+                        1. Manuel habite à Paris, en France. <em>(Manuel lives in Paris, France)</em><br>
+                        2. Manuel a douze ans. <em>(Manuel is 12 years old)</em></p>
+                        <p><strong>B. Vrai / Faux:</strong> 1. Faux (He is 12) | 2. Vrai | 3. Faux (They play football) | 4. Vrai</p>
+                        <p><strong>C. Completion:</strong> 1. ami | 2. France</p>
+                    </div>
+                </div>
+
+                <!-- Answer Item 2 -->
+                <div class="p-4 bg-slate-50 rounded-xl mb-4 border-l-4 border-blue-600">
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Q.2 Matching Pairs (8 Marks)</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-700">
+                        <div>• La Tour Eiffel → Un monument à Paris</div>
+                        <div>• Le fromage → Un produit laitier (ex. Camembert)</div>
+                        <div>• Bleu, Blanc, Rouge → Le drapeau français</div>
+                        <div>• Le stylo → Un objet de la classe pour écrire</div>
+                        <div>• La baguette → Le pain français</div>
+                        <div>• Le garçon → Le contraire de la fille</div>
+                        <div>• Paris → La capitale de la France</div>
+                        <div>• Le livre → Un objet pour lire</div>
+                    </div>
+                </div>
+
+                <!-- Answer Item 3 -->
+                <div class="p-4 bg-slate-50 rounded-xl mb-4 border-l-4 border-blue-600">
+                    <h3 class="font-bold text-slate-900 text-base mb-1">Q.3 Dialogue Completion Solutions (6 Marks)</h3>
+                    <p class="text-sm text-slate-700 leading-relaxed">
+                        Paul : <strong>Bonjour</strong> ! Comment tu t'appelles ?<br>
+                        Marc : Bonjour ! Je <strong>m'appelle</strong> Marc. Et toi ?<br>
+                        Paul : Je m'appelle Paul. <strong>Comment</strong> allez-vous ?<br>
+                        Marc : Je vais bien, merci. Et toi ?<br>
+                        Paul : <strong>Ça va</strong> bien !<br>
+                        Marc : Très bien, <strong>enchanté</strong> de te connaître, Paul !<br>
+                        Paul : Merci, <strong>Au revoir</strong> !
+                    </p>
+                </div>
+
+                <!-- Answer Item 4 & 5 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.4 Numbers (6 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>5 = <strong>cinq</strong></li>
+                            <li>12 = <strong>douze</strong></li>
+                            <li>15 = <strong>quinze</strong></li>
+                            <li>20 = <strong>vingt</strong></li>
+                            <li>8 = <strong>huit</strong></li>
+                            <li>11 = <strong>onze</strong></li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.5 Plural Form Rules (6 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. <strong>Ce sont des livres.</strong></li>
+                            <li>2. <strong>Ils ont des stylos noirs.</strong></li>
+                            <li>3. <strong>Les filles sont intelligentes.</strong></li>
+                            <li>4. <strong>Ce sont des fleurs.</strong></li>
+                            <li>5. <strong>Les garçons sont grands.</strong></li>
+                            <li>6. <strong>Nous avons des cahiers.</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Answer Item 6 & 7 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.6 Articles (6 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. C'est <strong>le</strong> tableau de la classe.</li>
+                            <li>2. Il y a <strong>une</strong> gomme sur la table.</li>
+                            <li>3. <strong>Les</strong> élèves sont dans la classe.</li>
+                            <li>4. J'ai <strong>une</strong> amie française.</li>
+                            <li>5. <strong>La</strong> capitale de la France est Paris.</li>
+                            <li>6. Ce sont <strong>des</strong> stylos de Pierre.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.7 Conjugations (6 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. Nous <strong>sommes</strong> (être)</li>
+                            <li>2. Tu <strong>as</strong> (avoir)</li>
+                            <li>3. Ils <strong>s'appellent</strong> (s'appeler)</li>
+                            <li>4. Je <strong>parle</strong> (parler)</li>
+                            <li>5. Vous <strong>êtes</strong> (être)</li>
+                            <li>6. Elle <strong>a</strong> (avoir)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Answer Item 8 & 9 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.8 Feminine Form (4 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. Elle est <strong>étudiante</strong>.</li>
+                            <li>2. C'est une <strong>petite</strong> fille.</li>
+                            <li>3. Elle est <strong>canadienne</strong>.</li>
+                            <li>4. La mère est <strong>grande</strong>.</li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.9 Sentence Order (4 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. <strong>Je m'appelle Denis.</strong></li>
+                            <li>2. <strong>Nous habitons à Paris.</strong></li>
+                            <li>3. <strong>La France est belle.</strong></li>
+                            <li>4. <strong>Quel âge as-tu ?</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Answer Item 10 & 11/12 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.10 Nationalities (5 Marks)</h3>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>1. Inde (f) : <strong>Indienne</strong></li>
+                            <li>2. France (m) : <strong>Français</strong></li>
+                            <li>3. Canada (f) : <strong>Canadienne</strong></li>
+                            <li>4. Italie (m) : <strong>Italien</strong></li>
+                            <li>5. Angleterre (f) : <strong>Anglaise</strong></li>
+                        </ul>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                        <h3 class="font-bold text-slate-900 text-base mb-1">Q.11 &amp; Q.12 Translations</h3>
+                        <div class="text-sm text-slate-700 space-y-1">
+                            <p><strong>French:</strong> 1. Bonjour, comment ça va ? | 2. J'ai deux livres. | 3. Elle est française. | 4. Au revoir et à demain !</p>
+                            <p><strong>English:</strong> 1. My name is Sophie and I am ten years old. | 2. Paris is the capital of France. | 3. We are students.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Answer Item 13 -->
+                <div class="p-4 bg-slate-50 rounded-xl border-l-4 border-blue-600">
+                    <h3 class="font-bold text-slate-900 text-base mb-2">Q.13 Sample Model Essays (5 Marks)</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                        <div class="p-3 bg-white rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-blue-900 mb-1">Sujet A : Présentez-vous</h4>
+                            <p class="text-slate-700">Bonjour ! Je m'appelle Rahul. J'ai douze ans. J'habite à Mumbai en Inde. Je suis étudiant. J'aime le football et la musique. Je parle anglais et un peu français.</p>
+                        </div>
+                        <div class="p-3 bg-white rounded-lg border border-slate-200">
+                            <h4 class="font-bold text-blue-900 mb-1">Sujet B : La France</h4>
+                            <p class="text-slate-700">La France est un beau pays en Europe. La capitale de la France est Paris. Le drapeau français est bleu, blanc et rouge. La Tour Eiffel est un grand monument à Paris. En France, on aime le fromage et le pain.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Data Structures for Q2 Matching
+        const q2Data = [
+            { id: 1, term: "1. La Tour Eiffel", answer: "Un monument à Paris" },
+            { id: 2, term: "2. Le fromage", answer: "Un produit laitier (ex. Camembert)" },
+            { id: 3, term: "3. Bleu, Blanc, Rouge", answer: "Le drapeau français" },
+            { id: 4, term: "4. Le stylo", answer: "Un objet de la classe pour écrire" },
+            { id: 5, term: "5. La baguette", answer: "Le pain français" },
+            { id: 6, term: "6. Le garçon", answer: "Le contraire de la fille" },
+            { id: 7, term: "7. Paris", answer: "La capitale de la France" },
+            { id: 8, term: "8. Le livre", answer: "Un objet pour lire" }
+        ];
+
+        let dialogueWords = ["Bonjour", "m'appelle", "Comment", "Ça va", "enchanté", "Au revoir"];
+        let userScores = {};
+
+        // On DOM Load
+        document.addEventListener("DOMContentLoaded", () => {
+            renderQ2();
+            populateDialogueSelects();
+        });
+
+        // Speech Synthesis Functionality
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel(); // Stop current playing audio
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'fr-FR';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            } else {
+                alert("Text-to-speech not supported in this browser.");
+            }
+        }
+
+        // Toggle English Hints
+        let showTranslations = true;
+        function toggleTranslations() {
+            showTranslations = !showTranslations;
+            const transElements = document.querySelectorAll('.trans-text');
+            transElements.forEach(el => {
+                el.style.display = showTranslations ? 'inline' : 'none';
+            });
+            document.getElementById('trans-btn-text').innerText = showTranslations ? 'English Hints: ON' : 'English Hints: OFF';
+        }
+
+        // Tab Switcher
+        function switchTab(tab) {
+            if (tab === 'practice') {
+                document.getElementById('view-practice').classList.remove('hidden');
+                document.getElementById('view-answers').classList.add('hidden');
+                document.getElementById('tab-practice').className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-sm";
+                document.getElementById('tab-answers').className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
+            } else {
+                document.getElementById('view-practice').classList.add('hidden');
+                document.getElementById('view-answers').classList.remove('hidden');
+                document.getElementById('tab-answers').className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition bg-blue-600 text-white shadow-sm";
+                document.getElementById('tab-practice').className = "flex-1 md:flex-none px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition text-slate-400 hover:text-white";
+            }
+        }
+
+        // Render Q2 Matching Rows
+        function renderQ2() {
+            const container = document.getElementById('q2-container');
+            const options = q2Data.map(d => d.answer).sort(() => Math.random() - 0.5);
+
+            container.innerHTML = q2Data.map((item, index) => `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200 gap-2">
+                    <span class="font-medium text-slate-800 text-sm">${item.term}</span>
+                    <select id="q2-select-${item.id}" class="px-2 py-1.5 rounded-lg border border-slate-300 text-sm bg-white font-medium text-blue-900 sm:w-1/2">
+                        <option value="">Select matching description...</option>
+                        ${options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                    </select>
+                </div>
+            `).join('');
+        }
+
+        // Populate Q3 Dialogue Select Boxes
+        function populateDialogueSelects() {
+            for (let i = 1; i <= 6; i++) {
+                const sel = document.getElementById(`q3-${i}`);
+                sel.innerHTML = '<option value="">?</option>' + dialogueWords.map(w => `<option value="${w}">${w}</option>`).join('');
+            }
+        }
+
+        // Utility: Update Score Bar
+        function updateOverallScore() {
+            let total = 0;
+            Object.values(userScores).forEach(score => total += score);
+            document.getElementById('user-score').innerText = total;
+            const percent = Math.round((total / 80) * 100);
+            document.getElementById('score-percent').innerText = `${percent}%`;
+        }
+
+        // Question Checkers
+        function checkQ1() {
+            let score = 0;
+            const a1 = document.getElementById('q1-a1').value.toLowerCase();
+            const a2 = document.getElementById('q1-a2').value.toLowerCase();
+
+            if (a1.includes('paris')) score += 2;
+            if (a2.includes('douze') || a2.includes('12')) score += 2;
+
+            if (document.getElementById('q1-b1').value === 'Faux') score += 1;
+            if (document.getElementById('q1-b2').value === 'Vrai') score += 1;
+            if (document.getElementById('q1-b3').value === 'Faux') score += 1;
+            if (document.getElementById('q1-b4').value === 'Vrai') score += 1;
+
+            if (document.getElementById('q1-c1').value.trim().toLowerCase() === 'ami') score += 1;
+            if (document.getElementById('q1-c2').value.trim().toLowerCase() === 'france') score += 1;
+
+            userScores['q1'] = score;
+            updateOverallScore();
+            document.getElementById('q1-feedback').innerHTML = `<span class="${score === 10 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 10 Marks</span>`;
+        }
+
+        function checkQ2() {
+            let score = 0;
+            q2Data.forEach(item => {
+                const val = document.getElementById(`q2-select-${item.id}`).value;
+                if (val === item.answer) score += 1;
+            });
+            userScores['q2'] = score;
+            updateOverallScore();
+            document.getElementById('q2-feedback').innerHTML = `<span class="${score === 8 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 8 Marks</span>`;
+        }
+
+        function checkQ3() {
+            const correct = ["Bonjour", "m'appelle", "Comment", "Ça va", "enchanté", "Au revoir"];
+            let score = 0;
+            for (let i = 1; i <= 6; i++) {
+                if (document.getElementById(`q3-${i}`).value === correct[i - 1]) score += 1;
+            }
+            userScores['q3'] = score;
+            updateOverallScore();
+            document.getElementById('q3-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ4() {
+            const correct = ["cinq", "douze", "quinze", "vingt", "huit", "onze"];
+            let score = 0;
+            for (let i = 1; i <= 6; i++) {
+                if (document.getElementById(`q4-${i}`).value.trim().toLowerCase() === correct[i - 1]) score += 1;
+            }
+            userScores['q4'] = score;
+            updateOverallScore();
+            document.getElementById('q4-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ5() {
+            const answers = [
+                "ce sont des livres",
+                "ils ont des stylos noirs",
+                "les filles sont intelligentes",
+                "ce sont des fleurs",
+                "les garçons sont grands",
+                "nous avons des cahiers"
+            ];
+            let score = 0;
+            for (let i = 1; i <= 6; i++) {
+                const userVal = document.getElementById(`q5-${i}`).value.trim().toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+                if (userVal === answers[i - 1]) score += 1;
+            }
+            userScores['q5'] = score;
+            updateOverallScore();
+            document.getElementById('q5-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ6() {
+            const answers = ["le", "une", "les", "une", "la", "des"];
+            let score = 0;
+            for (let i = 1; i <= 6; i++) {
+                if (document.getElementById(`q6-${i}`).value === answers[i - 1]) score += 1;
+            }
+            userScores['q6'] = score;
+            updateOverallScore();
+            document.getElementById('q6-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ7() {
+            const answers = ["sommes", "as", "s'appellent", "parle", "êtes", "a"];
+            let score = 0;
+            for (let i = 1; i <= 6; i++) {
+                if (document.getElementById(`q7-${i}`).value.trim().toLowerCase() === answers[i - 1]) score += 1;
+            }
+            userScores['q7'] = score;
+            updateOverallScore();
+            document.getElementById('q7-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ8() {
+            const answers = ["étudiante", "petite", "canadienne", "grande"];
+            let score = 0;
+            for (let i = 1; i <= 4; i++) {
+                if (document.getElementById(`q8-${i}`).value.trim().toLowerCase() === answers[i - 1]) score += 1;
+            }
+            userScores['q8'] = score;
+            updateOverallScore();
+            document.getElementById('q8-feedback').innerHTML = `<span class="${score === 4 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 4 Marks</span>`;
+        }
+
+        function checkQ9() {
+            const answers = [
+                "je m'appelle denis",
+                "nous habitons à paris",
+                "la france est belle",
+                "quel âge as-tu"
+            ];
+            let score = 0;
+            for (let i = 1; i <= 4; i++) {
+                const userVal = document.getElementById(`q9-${i}`).value.trim().toLowerCase().replace(/[?]/g, "").trim();
+                if (userVal === answers[i - 1]) score += 1;
+            }
+            userScores['q9'] = score;
+            updateOverallScore();
+            document.getElementById('q9-feedback').innerHTML = `<span class="${score === 4 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 4 Marks</span>`;
+        }
+
+        function checkQ10() {
+            const answers = ["indienne", "français", "canadienne", "italien", "anglaise"];
+            let score = 0;
+            for (let i = 1; i <= 5; i++) {
+                if (document.getElementById(`q10-${i}`).value.trim().toLowerCase() === answers[i - 1]) score += 1;
+            }
+            userScores['q10'] = score;
+            updateOverallScore();
+            document.getElementById('q10-feedback').innerHTML = `<span class="${score === 5 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 5 Marks</span>`;
+        }
+
+        function checkQ11() {
+            let score = 0;
+            if (document.getElementById('q11-1').value.toLowerCase().includes('bonjour') || document.getElementById('q11-1').value.toLowerCase().includes('ça va')) score += 2;
+            if (document.getElementById('q11-2').value.toLowerCase().includes('deux livres')) score += 2;
+            if (document.getElementById('q11-3').value.toLowerCase().includes('française')) score += 2;
+            if (document.getElementById('q11-4').value.toLowerCase().includes('au revoir') && document.getElementById('q11-4').value.toLowerCase().includes('demain')) score += 2;
+
+            userScores['q11'] = score;
+            updateOverallScore();
+            document.getElementById('q11-feedback').innerHTML = `<span class="${score === 8 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 8 Marks</span>`;
+        }
+
+        function checkQ12() {
+            let score = 0;
+            if (document.getElementById('q12-1').value.toLowerCase().includes('sophie') && document.getElementById('q12-1').value.toLowerCase().includes('ten')) score += 2;
+            if (document.getElementById('q12-2').value.toLowerCase().includes('capital') && document.getElementById('q12-2').value.toLowerCase().includes('france')) score += 2;
+            if (document.getElementById('q12-3').value.toLowerCase().includes('students')) score += 2;
+
+            userScores['q12'] = score;
+            updateOverallScore();
+            document.getElementById('q12-feedback').innerHTML = `<span class="${score === 6 ? 'text-emerald-600' : 'text-blue-600'}">Score: ${score} / 6 Marks</span>`;
+        }
+
+        function checkQ13() {
+            const userText = document.getElementById('q13-text').value.trim();
+            let score = 0;
+            if (userText.length > 30) score = 5;
+            else if (userText.length > 10) score = 3;
+
+            userScores['q13'] = score;
+            updateOverallScore();
+
+            const feedbackEl = document.getElementById('q13-feedback');
+            feedbackEl.classList.remove('hidden');
+            feedbackEl.innerHTML = `
+                <div class="font-bold text-base">Score: ${score} / 5 Marks Awarded!</div>
+                <div><strong>Sample High-Score Model Essay:</strong></div>
+                <div class="p-3 bg-white rounded-lg border border-emerald-200 text-slate-800 italic">
+                    "Bonjour ! Je m'appelle Rahul. J'ai douze ans. J'habite à Mumbai en Inde. Je suis étudiant. J'aime le football et la musique."
+                </div>
+            `;
+        }
+
+        function calculateTotalScore() {
+            checkQ1(); checkQ2(); checkQ3(); checkQ4(); checkQ5();
+            checkQ6(); checkQ7(); checkQ8(); checkQ9(); checkQ10();
+            checkQ11(); checkQ12(); checkQ13();
+
+            let total = 0;
+            Object.values(userScores).forEach(s => total += s);
+
+            alert(`Félicitations ! Your total score is ${total} out of 80 Marks (${Math.round((total/80)*100)}%).`);
+        }
+
+        function resetAllAnswers() {
+            if (confirm("Are you sure you want to reset all your answers and score?")) {
+                userScores = {};
+                updateOverallScore();
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
